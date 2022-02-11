@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src='nui://game/ui/jquery.js' type='text/javascript'></script>
+</head>
+
+<body>
+    <script type='text/javascript'>
+        $(function() {
+            window.addEventListener('message', function(event) {
+                switch (event.data.type) {
+                    case 'add':
+                        var temp = document.createElement('div');
+                        temp.innerHTML = event.data.payload;
+
+                        temp.setAttribute('id', event.data.id);
+                        document.body.appendChild(temp);
+                        break;
+                    case 'edit':
+                        document.getElementById(event.data.id).innerHTML = event.data.payload;
+                        break;
+                    case 'remove':
+                        document.getElementById(event.data.id).remove();
+                        break;
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
