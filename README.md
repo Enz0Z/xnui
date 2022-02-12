@@ -22,7 +22,7 @@ exports['xnui']:edit('hello_world', [[
 ### remove(id)
 #### Example
 ```lua
-exports['xnui']:edit('hello_world')
+exports['xnui']:remove('hello_world')
 ```
 
 ------------
@@ -50,5 +50,5 @@ exports['xnui']:edit(GetPlayers()[1], 'hello_world', [[
 ### remove(source, id)
 #### Example
 ```lua
-exports['xnui']:edit(GetPlayers()[1], 'hello_world')
+exports['xnui']:remove(GetPlayers()[1], 'hello_world')
 ```
