@@ -1,19 +1,20 @@
 if IsDuplicityVersion() then
-	exports('add', function(source, id, payload)
-		TriggerClientEvent(source, 'xnui:add', id, payload)
+	exports('add', function(source, ...)
+		TriggerClientEvent(source, 'xnui:add', ...)
 	end)
 
-	exports('edit', function(source, id, payload)
-		TriggerClientEvent(source, 'xnui:edit', id, payload)
+	exports('edit', function(source, ...)
+		TriggerClientEvent(source, 'xnui:edit', ...)
 	end)
 
-	exports('remove', function(source, id)
-		TriggerClientEvent(source, 'xnui:remove', id)
+	exports('remove', function(source, ...)
+		TriggerClientEvent(source, 'xnui:remove', ...)
 	end)
 else
 	local parts = {}
 
 	local add = function(id, payload)
+		assert(parts[id] == nil, '"' .. id .. '" already exists.')
 		SendNUIMessage({
 			type = 'add',
 			id = id,
@@ -23,6 +24,7 @@ else
 	end
 
 	local edit = function(id, payload)
+		assert(parts[id] ~= nil, '"' .. id .. '" does not exist.')
 		SendNUIMessage({
 			type = 'edit',
 			id = id,
@@ -32,6 +34,7 @@ else
 	end
 
 	local remove = function(id)
+		assert(parts[id] ~= nil, '"' .. id .. '" does not exist.')
 		SendNUIMessage({
 			type = 'remove',
 			id = id
@@ -39,31 +42,31 @@ else
 		parts[id] = nil
 	end
 
-	exports('add', function(id, payload)
-		add(id, payload)
+	exports('add', function(...)
+		add(...)
 	end)
 
-	exports('edit', function(id, payload)
-		edit(id, payload)
+	exports('edit', function(...)
+		edit(...)
 	end)
 
-	exports('remove', function(id)
-		remove(id)
+	exports('remove', function(...)
+		remove(...)
 	end)
 
 	exports('exist', function(id)
 		return (parts[id] ~= nil)
 	end)
 
-	RegisterNetEvent('xnui:add', function(id, payload)
-		add(id, payload)
+	RegisterNetEvent('xnui:add', function(...)
+		add(...)
 	end)
 
-	RegisterNetEvent('xnui:edit', function(id, payload)
-		edit(id, payload)
+	RegisterNetEvent('xnui:edit', function(...)
+		edit(...)
 	end)
 
-	RegisterNetEvent('xnui:remove', function(id)
-		remove(id)
+	RegisterNetEvent('xnui:remove', function(...)
+		remove(...)
 	end)
 end
