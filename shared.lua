@@ -23,8 +23,15 @@ else
 		parts[id] = payload
 	end
 
-	local edit = function(id, payload)
-		assert(parts[id] ~= nil, '"' .. id .. '" does not exist.')
+	local edit = function(id, payload, create_if)
+		if create_if then
+			if parts[id] == nil then
+				add(id, payload)
+				return
+			end
+		else
+			assert(parts[id] ~= nil, '"' .. id .. '" does not exist.')
+		end
 		SendNUIMessage({
 			type = 'edit',
 			id = id,
