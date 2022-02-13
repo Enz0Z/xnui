@@ -11,12 +11,15 @@ if IsDuplicityVersion() then
 		TriggerClientEvent(source, 'xnui:remove', id)
 	end)
 else
+	local parts = {}
+
 	local add = function(id, payload)
 		SendNUIMessage({
 			type = 'add',
 			id = id,
 			payload = payload
 		})
+		parts[id] = payload
 	end
 
 	local edit = function(id, payload)
@@ -25,6 +28,7 @@ else
 			id = id,
 			payload = payload
 		})
+		parts[id] = payload
 	end
 
 	local remove = function(id)
@@ -32,19 +36,8 @@ else
 			type = 'remove',
 			id = id
 		})
+		parts[id] = nil
 	end
-
-	RegisterNetEvent('xnui:add', function(id, payload)
-		add(id, payload)
-	end)
-
-	RegisterNetEvent('xnui:edit', function(id, payload)
-		edit(id, payload)
-	end)
-
-	RegisterNetEvent('xnui:remove', function(id)
-		remove(id)
-	end)
 
 	exports('add', function(id, payload)
 		add(id, payload)
@@ -55,6 +48,22 @@ else
 	end)
 
 	exports('remove', function(id)
+		remove(id)
+	end)
+
+	exports('exist', function(id)
+		return (parts[id] ~= nil)
+	end)
+
+	RegisterNetEvent('xnui:add', function(id, payload)
+		add(id, payload)
+	end)
+
+	RegisterNetEvent('xnui:edit', function(id, payload)
+		edit(id, payload)
+	end)
+
+	RegisterNetEvent('xnui:remove', function(id)
 		remove(id)
 	end)
 end
